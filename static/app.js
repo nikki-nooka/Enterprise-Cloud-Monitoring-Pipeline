@@ -41,26 +41,49 @@ function initChart() {
         options: {
             responsive: true,
             maintainAspectRatio: false,
+            interaction: {
+                mode: 'index',
+                intersect: false
+            },
             scales: {
                 x: {
-                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
-                    ticks: { color: '#64748b', font: { family: 'Outfit', size: 10 } }
+                    grid: { color: 'rgba(255, 255, 255, 0.03)' },
+                    ticks: { color: '#64748b', font: { family: 'Outfit', size: 9 } }
                 },
                 y: {
                     min: 0,
                     max: 100,
                     grid: { color: 'rgba(255, 255, 255, 0.05)' },
-                    ticks: { color: '#64748b', font: { family: 'Outfit', size: 10 } }
+                    ticks: { color: '#64748b', font: { family: 'Outfit', size: 9 } }
                 }
             },
             plugins: {
                 legend: {
-                    labels: { color: '#cbd5e1', font: { family: 'Outfit', size: 11 } }
+                    position: 'top',
+                    labels: { 
+                        color: '#cbd5e1', 
+                        font: { family: 'Outfit', size: 10, weight: 'bold' },
+                        boxWidth: 10,
+                        padding: 10
+                    }
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(15, 23, 42, 0.95)',
+                    titleColor: '#38bdf8',
+                    bodyColor: '#f8fafc',
+                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    borderWidth: 1,
+                    titleFont: { family: 'Outfit', size: 11, weight: 'bold' },
+                    bodyFont: { family: 'Outfit', size: 10 },
+                    padding: 8,
+                    displayColors: true,
+                    boxWidth: 8,
+                    boxHeight: 8
                 }
             },
             elements: {
-                point: { radius: 0 },
-                line: { tension: 0.3, borderWidth: 2 }
+                point: { radius: 0, hoverRadius: 5 },
+                line: { tension: 0.4, borderWidth: 3 }
             }
         }
     });
@@ -203,14 +226,19 @@ async function fetchTelemetry() {
             }
             
             const cpuHistory = history.map(h => h.cpu_utilization);
-            const datasetColor = serverColors[server] || "#94a3b8"; // Fallback to slate gray for dynamic host servers
+            let datasetColor = serverColors[server];
+            if (!datasetColor) {
+                // If it is a local host, color it high-visibility neon cyan/blue
+                datasetColor = "#a855f7"; // Neon Purple for Host
+            }
             
             chartDatasets.push({
                 label: server,
                 data: cpuHistory,
                 borderColor: datasetColor,
                 backgroundColor: 'transparent',
-                borderWidth: 2
+                borderWidth: 3,
+                pointHoverRadius: 5
             });
         }
         
