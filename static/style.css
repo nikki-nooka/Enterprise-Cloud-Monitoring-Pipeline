@@ -1,0 +1,376 @@
+/* Premium Glassmorphic Styling for Enterprise Cloud Monitoring Pipeline */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+    --bg-gradient: linear-gradient(135deg, #0f172a 0%, #020617 100%);
+    --card-bg: rgba(30, 41, 59, 0.45);
+    --card-border: rgba(255, 255, 255, 0.08);
+    --glow-azure: 0 0 20px rgba(14, 165, 233, 0.25);
+    --glow-gcp: 0 0 20px rgba(244, 63, 94, 0.25);
+    
+    --color-text: #f8fafc;
+    --color-muted: #94a3b8;
+    --color-primary: #38bdf8; /* Azure Blue */
+    --color-secondary: #f43f5e; /* GCP Red/Rose */
+    --color-success: #10b981; /* Healthy green */
+    --color-warning: #f59e0b; /* Amber */
+    --color-critical: #ef4444; /* Critical red */
+    
+    --font-sans: 'Outfit', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: var(--bg-gradient);
+    color: var(--color-text);
+    font-family: var(--font-sans);
+    min-height: 100vh;
+    overflow-x: hidden;
+    padding-bottom: 2rem;
+}
+
+/* Glassmorphism utility card */
+.glass-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.glass-card:hover {
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), rgba(255, 255, 255, 0.03) 0px 0px 0px 1px inset;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 3rem;
+    border-bottom: 1px solid var(--card-border);
+    backdrop-filter: blur(8px);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.logo-container h1 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    background: linear-gradient(90deg, #38bdf8, #818cf8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.status-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 0.4rem 0.8rem;
+    border-radius: 9999px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-success);
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--color-success);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.9); opacity: 0.8; }
+    50% { transform: scale(1.2); opacity: 1; box-shadow: 0 0 10px var(--color-success); }
+    100% { transform: scale(0.9); opacity: 0.8; }
+}
+
+.main-container {
+    padding: 2rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 2rem;
+}
+
+/* Stats Counter Row */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    grid-column: 1 / span 2;
+}
+
+.stat-card {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.stat-label {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.5rem;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: var(--font-sans);
+}
+
+.stat-icon {
+    font-size: 1.5rem;
+    align-self: flex-end;
+    opacity: 0.6;
+}
+
+/* Primary workspace grid */
+.dashboard-left {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Live Telemetry Server Grid */
+.telemetry-section {
+    padding: 1.5rem;
+}
+
+.section-title {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.server-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+}
+
+.server-card {
+    background: rgba(15, 23, 42, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 1.25rem;
+}
+
+.server-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+}
+
+.server-name {
+    font-weight: 600;
+    font-family: var(--font-mono);
+    color: #e2e8f0;
+}
+
+.metric-row {
+    margin-bottom: 0.75rem;
+}
+
+.metric-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    margin-bottom: 0.25rem;
+}
+
+.progress-bar-container {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    border-radius: 999px;
+    transition: width 0.5s ease;
+}
+
+/* Mini-Splunk Ingestion log Console */
+.log-console-section {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: 480px;
+}
+
+.console-filters {
+    display: flex;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.filter-select, .search-input {
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid var(--card-border);
+    color: var(--color-text);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-family: var(--font-sans);
+    outline: none;
+    font-size: 0.9rem;
+}
+
+.search-input {
+    flex-grow: 1;
+}
+
+.filter-select:focus, .search-input:focus {
+    border-color: var(--color-primary);
+}
+
+.log-stream {
+    flex-grow: 1;
+    background: #020617;
+    border-radius: 8px;
+    padding: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    overflow-y: auto;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.log-line {
+    display: flex;
+    gap: 1rem;
+    padding: 0.3rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    line-height: 1.4;
+}
+
+.log-time {
+    color: #64748b;
+    white-space: nowrap;
+}
+
+.log-level {
+    font-weight: 600;
+    padding: 0 0.4rem;
+    border-radius: 4px;
+    min-width: 65px;
+    text-align: center;
+}
+
+.log-level.INFO { background: rgba(16, 185, 129, 0.15); color: var(--color-success); }
+.log-level.WARNING { background: rgba(245, 158, 11, 0.15); color: var(--color-warning); }
+.log-level.ERROR { background: rgba(239, 68, 68, 0.15); color: var(--color-critical); }
+.log-level.CRITICAL { background: rgba(239, 68, 68, 0.3); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.5); }
+
+.log-provider {
+    font-weight: 600;
+}
+.log-provider.Azure { color: #0ea5e9; }
+.log-provider.GCP { color: #f43f5e; }
+
+.log-msg {
+    color: #cbd5e1;
+}
+
+/* Sidebar Alert & Admin Control Panel */
+.dashboard-right {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.alert-panel {
+    padding: 1.5rem;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    max-height: 480px;
+}
+
+.alert-list {
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.alert-item {
+    background: rgba(239, 68, 68, 0.08);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.alert-item.resolved {
+    background: rgba(16, 185, 129, 0.08);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+}
+
+.alert-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.alert-desc {
+    font-size: 0.85rem;
+}
+
+/* Interactive Incident Injection Panel */
+.injection-panel {
+    padding: 1.5rem;
+}
+
+.control-btn {
+    width: 100%;
+    background: linear-gradient(90deg, #ef4444, #f43f5e);
+    border: none;
+    color: white;
+    padding: 0.75rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: filter 0.2s;
+    margin-top: 1rem;
+}
+
+.control-btn:hover {
+    filter: brightness(1.1);
+}
+
+.control-btn.secondary {
+    background: linear-gradient(90deg, #475569, #64748b);
+}
+
+select.injection-select {
+    width: 100%;
+    margin-bottom: 0.75rem;
+}
