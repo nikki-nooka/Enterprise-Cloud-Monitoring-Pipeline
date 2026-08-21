@@ -19,25 +19,32 @@ A high-performance, real-time log aggregation and telemetry pipeline designed to
 
 ```mermaid
 flowchart TD
+    %% Class Definitions for Premium Styling
+    classDef agent fill:#10b981,stroke:#047857,stroke-width:2px,color:#fff;
+    classDef server fill:#0ea5e9,stroke:#0369a1,stroke-width:2px,color:#fff;
+    classDef alert fill:#f43f5e,stroke:#be123c,stroke-width:2px,color:#fff;
+    classDef database fill:#8b5cf6,stroke:#6d28d9,stroke-width:2px,color:#fff;
+    classDef ui fill:#64748b,stroke:#475569,stroke-width:2px,color:#fff;
+
     subgraph "Client Infrastructure (Agent)"
-        OS[Host OS Kernel] -->|psutil telemetry| AG[agent.py Daemon]
-        LOGS[(app.log file)] -->|tail harvester thread| AG
+        OS["Host OS Kernel"]:::agent -->|psutil telemetry| AG["agent.py Daemon"]:::agent
+        LOGS[("app.log file")]:::agent -->|tail harvester thread| AG
     end
 
     subgraph "FastAPI Central Pipeline Server (app.py)"
-        AG -->|HTTP POST with X-API-Token Header| SEC{Header Auth Validator}
-        SEC -->|401 Unauthorized| REJ[Reject Payload]
-        SEC -->|200 OK / Authorized| BG[Ingestion Engine]
+        AG -->|HTTP POST with X-API-Token Header| SEC{"Header Auth Validator"}:::server
+        SEC -->|401 Unauthorized| REJ["Reject Payload"]:::alert
+        SEC -->|200 OK / Authorized| BG["Ingestion Engine"]:::server
         
-        BG -->|Async Queue Write| DB[(SQLAlchemy DB Engine: SQLite/Postgres)]
-        BG -->|Alert Rules Check| AL{Threshold Engine}
-        AL -->|CPU > 50% / RAM > 85%| SL[Slack Webhook Notification]
+        BG -->|Async Queue Write| DB[("SQLAlchemy DB Engine")]:::database
+        BG -->|Alert Rules Check| AL{"Threshold Engine"}:::server
+        AL -->|CPU > 50% / RAM > 85%| SL["Slack Webhook Alert"]:::alert
     end
 
     subgraph "TOC Dashboard Control Console (UI)"
-        DB -->|HTTP GET Polling 1s| UI[HTML5/CSS Glassmorphic Dashboard]
-        UI -->|Dynamic Datasets| CRT[Chart.js Real-time Trend Graphs]
-        UI -->|Index Queries| SPL[Mini-Splunk Log Console]
+        DB -->|HTTP GET Polling 1s| UI["HTML5/CSS Glassmorphic Dashboard"]:::ui
+        UI -->|Dynamic Datasets| CRT["Chart.js Real-time Trend Graphs"]:::ui
+        UI -->|Index Queries| SPL["Mini-Splunk Log Console"]:::ui
     end
 ```
 
