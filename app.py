@@ -217,7 +217,7 @@ def get_logs(
 def get_telemetry():
     with engine.connect() as conn:
         # Dynamically find all unique server_ids registered in telemetry
-        result = conn.execute(text("SELECT DISTINCT server_id FROM telemetry"))
+        result = conn.execute(text("SELECT DISTINCT server_id FROM telemetry ORDER BY server_id ASC"))
         servers = [row[0] for row in result]
         
         # If database is empty, fallback to simulator lists

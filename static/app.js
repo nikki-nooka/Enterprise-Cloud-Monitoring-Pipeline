@@ -167,7 +167,9 @@ async function fetchTelemetry() {
         let timestamps = [];
         let chartDatasets = [];
         
-        for (const [server, history] of Object.entries(telemetry)) {
+        const sortedServers = Object.keys(telemetry).sort();
+        for (const server of sortedServers) {
+            const history = telemetry[server];
             if (history.length === 0) continue;
             
             const latest = history[history.length - 1];
