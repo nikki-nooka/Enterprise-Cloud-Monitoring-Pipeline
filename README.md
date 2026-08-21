@@ -17,6 +17,8 @@ A high-performance, real-time log aggregation and telemetry pipeline designed to
 
 ## 🛠️ Architecture & Telemetry Data Flow
 
+<div align="center">
+
 ```mermaid
 flowchart TD
     %% Class Definitions for Premium Styling
@@ -47,6 +49,8 @@ flowchart TD
         UI -->|Index Queries| SPL["Mini-Splunk Log Console"]:::ui
     end
 ```
+
+</div>
 
 ---
 
