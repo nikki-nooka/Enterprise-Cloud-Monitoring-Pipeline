@@ -1,0 +1,109 @@
+2026-08-21T12:11:00.862633 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:11:03.485549 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:11:07.096568 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:11:11.580169 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:11:15.332478 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:11:17.376771 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:11:21.228354 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:11:25.552792 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:11:29.963858 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:11:32.742553 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:11:37.610576 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:11:42.047716 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:11:44.306545 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:11:47.691570 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:11:51.827058 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:11:56.831710 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:12:00.101308 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:12:03.032225 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:12:06.735679 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:12:10.037560 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:12:14.244105 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:12:17.935374 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:12:22.300528 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:12:26.130360 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:12:30.556567 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:12:33.863183 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:12:37.713958 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:12:41.224846 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:12:43.652117 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:12:47.668568 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:12:52.286794 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:12:56.351849 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:13:00.453021 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:13:02.705658 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:13:06.605787 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:13:10.217233 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:13:13.363768 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:13:18.209567 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:13:21.147730 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:13:25.409419 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:13:29.693123 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:13:34.386394 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:13:39.046714 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:13:43.253101 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:13:46.782107 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:13:51.184831 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:13:55.699688 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:13:59.591177 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:14:03.172534 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:14:06.134681 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:14:08.387989 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:14:11.951330 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:14:15.917952 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:14:20.026832 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:14:24.959856 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:14:28.707974 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:14:33.155979 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:14:38.023315 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:14:43.007842 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:14:47.834799 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:14:51.336606 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:14:54.475522 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:14:58.679170 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:15:01.012593 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:15:04.543388 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:15:07.567614 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:15:12.467590 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:15:15.717910 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:15:18.845030 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:15:22.235553 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:15:26.827362 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:15:30.296892 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:15:33.547845 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:15:36.045363 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:15:40.317402 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:15:43.447639 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:15:48.157650 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:15:51.412021 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:15:55.425840 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:15:57.730085 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:16:00.811246 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:16:05.641399 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:16:08.145416 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:16:10.474362 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:16:14.639287 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:16:17.830897 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:16:22.605348 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:16:25.026725 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:16:28.141484 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:16:32.725689 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:16:35.964532 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:16:40.239228 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:16:42.943939 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:16:45.110047 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:16:47.124531 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:16:51.076717 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:16:54.901541 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:16:57.897411 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:17:00.911864 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:17:04.804421 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:17:08.242853 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:17:12.715131 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:17:17.676613 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:17:21.133322 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:17:24.709753 [WARNING] Slight network delay detected sending telemetry chunk.
+2026-08-21T12:17:29.659100 [INFO] Established telemetry tunnel connection state.
+2026-08-21T12:17:32.116515 [INFO] Cleared connection pool cache buffers.
+2026-08-21T12:17:35.337251 [INFO] Telemetry collector agent heartbeat successfully transmitted.
+2026-08-21T12:17:37.680450 [INFO] Telemetry collector agent heartbeat successfully transmitted.

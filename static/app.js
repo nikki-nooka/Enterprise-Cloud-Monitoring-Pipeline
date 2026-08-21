@@ -1,7 +1,16 @@
 let simRunning = true;
+let telemetryChart = null;
+const serverColors = {
+    "srv-prod-east-01": "#38bdf8",     // Light blue
+    "srv-prod-east-02": "#6366f1",     // Indigo
+    "srv-prod-west-01": "#f43f5e",     // GCP Red
+    "srv-prod-west-02": "#ec4899",     // Pink
+    "srv-deloitte-prod-01": "#10b981"  // Deloitte Green
+};
 
 // Initialize on page load
 document.addEventListener("DOMContentLoaded", () => {
+    initChart();
     fetchStats();
     fetchTelemetry();
     fetchLogs();
@@ -14,13 +23,48 @@ document.addEventListener("DOMContentLoaded", () => {
             fetchStats();
             fetchTelemetry();
             fetchAlerts();
-            // Optional: periodically refresh log stream if no search is active
             if (!document.getElementById('filter-search').value) {
                 fetchLogs();
             }
         }
     }, 1000);
 });
+
+function initChart() {
+    const ctx = document.getElementById('telemetryChart').getContext('2d');
+    telemetryChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: [], // Timestamps
+            datasets: [] // One dataset per server
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                    ticks: { color: '#64748b', font: { family: 'Outfit', size: 10 } }
+                },
+                y: {
+                    min: 0,
+                    max: 100,
+                    grid: { color: 'rgba(255, 255, 255, 0.05)' },
+                    ticks: { color: '#64748b', font: { family: 'Outfit', size: 10 } }
+                }
+            },
+            plugins: {
+                legend: {
+                    labels: { color: '#cbd5e1', font: { family: 'Outfit', size: 11 } }
+                }
+            },
+            elements: {
+                point: { radius: 0 },
+                line: { tension: 0.3, borderWidth: 2 }
+            }
+        }
+    });
+}
 
 async function checkSimulatorStatus() {
     try {
@@ -78,7 +122,6 @@ async function fetchStats() {
         document.getElementById('stat-alerts').innerText = data.active_alerts;
         document.getElementById('stat-critical').innerText = data.critical_errors;
         
-        // Update alert page style if there are active alerts
         const alertStat = document.getElementById('stat-alerts');
         if (data.active_alerts > 0) {
             alertStat.style.color = 'var(--color-critical)';
@@ -97,6 +140,9 @@ async function fetchTelemetry() {
         
         const container = document.getElementById('server-metrics-container');
         container.innerHTML = '';
+        
+        let timestamps = [];
+        let chartDatasets = [];
         
         for (const [server, history] of Object.entries(telemetry)) {
             if (history.length === 0) continue;
@@ -150,7 +196,31 @@ async function fetchTelemetry() {
                 </div>
             `;
             container.insertAdjacentHTML('beforeend', cardHtml);
+            
+            // Collect Chart Data
+            if (timestamps.length === 0) {
+                timestamps = history.map(h => new Date(h.timestamp).toLocaleTimeString());
+            }
+            
+            const cpuHistory = history.map(h => h.cpu_utilization);
+            const datasetColor = serverColors[server] || "#94a3b8"; // Fallback to slate gray for dynamic host servers
+            
+            chartDatasets.push({
+                label: server,
+                data: cpuHistory,
+                borderColor: datasetColor,
+                backgroundColor: 'transparent',
+                borderWidth: 2
+            });
         }
+        
+        // Update Chart
+        if (telemetryChart) {
+            telemetryChart.data.labels = timestamps;
+            telemetryChart.data.datasets = chartDatasets;
+            telemetryChart.update();
+        }
+        
     } catch (e) {
         console.error("Error fetching telemetry:", e);
     }
@@ -197,7 +267,6 @@ async function fetchLogs() {
 }
 
 function searchLogs(event) {
-    // If enter is pressed, search immediately. Otherwise rely on active interval.
     if (event.key === "Enter") {
         fetchLogs();
     }

@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: monitoring_db
+    environment:
+      POSTGRES_USER: monitoring_user
+      POSTGRES_PASSWORD: monitoring_password
+      POSTGRES_DB: metrics_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U monitoring_user -d metrics_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    container_name: monitoring_server
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://monitoring_user:monitoring_password@db:5432/metrics_db
+      - SLACK_WEBHOOK_URL=
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

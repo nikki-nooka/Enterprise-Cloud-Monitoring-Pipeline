@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enterprise Cloud Infrastructure & Monitoring Pipeline</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <header class="glass-card">
@@ -59,6 +60,14 @@
                 <div class="section-title">
                     <span>Active Server Telemetry (GCP / Azure Pools)</span>
                     <span style="font-size: 0.8rem; color: var(--color-muted);">Refreshes every 1s</span>
+                </div>
+                
+                <div class="glass-card" style="padding: 1rem; margin-bottom: 1.5rem; background: rgba(15, 23, 42, 0.5); border: 1px solid var(--card-border); border-radius: 12px;">
+                    <div style="font-size: 0.9rem; margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-weight:600; color: var(--color-primary);">Real-Time Cluster CPU History</span>
+                        <span style="font-size: 0.8rem; color: var(--color-muted);">Tracking CPU loads live</span>
+                    </div>
+                    <canvas id="telemetryChart" style="max-height: 180px; width: 100%;"></canvas>
                 </div>
                 
                 <div class="server-cards-grid" id="server-metrics-container">
