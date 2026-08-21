@@ -10,7 +10,8 @@ A high-performance, real-time log aggregation and telemetry pipeline designed to
 * **Live System Monitoring Agent:** A lightweight daemon (`agent.py`) that uses kernel-level utilities to capture **actual real-time hardware performance metrics** (CPU, RAM, Disk I/O) from the host machine and streams them to the central collector.
 * **Low-Latency Ingestion Engine:** Built using FastAPI with async event loops and background worker tasks to process high-throughput telemetry updates asynchronously.
 * **Real-time Incident Alerting:** Automatic threshold evaluation (e.g. CPU > 50%, Memory > 85%) with state tracking to trigger notifications and support Slack webhook integrations.
-* **TOC Command Dashboard:** An interactive, glassmorphic dark-theme monitoring console equipped with a **Mini-Splunk Log Query Engine** to search, filter, and drill down on streaming logs.
+* **TOC Command Dashboard:** An interactive, glassmorphic dark-theme monitoring console equipped with **Chart.js scrolling trend graphs** and a **Mini-Splunk Log Query Engine** to search, filter, and drill down on streaming logs.
+* **API Token Security:** All telemetry and log ingestion endpoints are secured using custom header authentication (`X-API-Token`) to prevent spoofing or unauthorized posts.
 
 ---
 
@@ -19,8 +20,8 @@ A high-performance, real-time log aggregation and telemetry pipeline designed to
 ```mermaid
 graph TD
     subgraph "Data Sources (Agents)"
-        A1[agent.py - Real Host Agent] -->|POST JSON| B(Ingestion API)
-        A2[pipeline_simulator.py - Cloud Pool] -->|SQLite Transact| C[(Data Store: SQLite)]
+        A1[agent.py - Real Host Agent] -->|POST with X-API-Token Header| B(Ingestion API)
+        A2[pipeline_simulator.py - Cloud Pool] -->|SQLAlchemy Transact| C[(Data Store: Relational DB)]
     end
 
     subgraph "Central Processing Server (app.py)"
@@ -29,17 +30,17 @@ graph TD
         B -->|Write Metrics| C
     end
 
-    subgraph Monitoring Control Room
+    subgraph "Monitoring Control Room"
         C -->|Poll Updates| F[Glassmorphic Web UI]
         F -->|Filter Queries| G[Mini-Splunk Engine]
     end
 ```
 
 ### Technical Stack Details
-* **Language:** Python 3.9+ (utilizing `asyncio` for concurrency, `psutil` for hardware diagnostics, and `sqlite3` for local analytical persistence).
+* **Language:** Python 3.9+ (utilizing `asyncio` for concurrency, `psutil` for hardware diagnostics, and `sqlalchemy` for database portability).
 * **Server Framework:** **FastAPI** & **Uvicorn** (asynchronous ASGI server).
-* **Frontend:** Vanilla HTML5, CSS3 (Glassmorphism design tokens), and JavaScript (ES6 Fetch APIs & DOM binding).
-* **Database:** SQLite (optimized with row-indexes and dynamic compression routines to mimic GCP BigQuery / Azure Synapse behaviour).
+* **Frontend:** Vanilla HTML5, CSS3 (Glassmorphism design tokens), JavaScript (ES6 Fetch APIs), and **Chart.js** for animated metrics tracking.
+* **Database:** SQLite (local development) / PostgreSQL (production-grade linked via SQLAlchemy engines).
 
 ---
 
@@ -59,6 +60,7 @@ In an enterprise environment, 100GB+ of daily log data equates to handling rough
 * **Alert De-duplication:** The pipeline enforces state-tracking in the database. When a threshold (like CPU) is breached, it checks if an active alert is already open. This prevents "alert fatigue" by ensuring operators aren't flooded with multiple duplicate notifications for a single continuous issue.
 * **Database Compaction (Anti-bloat):** To prevent disk exhaustion during high-frequency ingestion, the pipeline executes a garbage-collection task every second, keeping only the most recent logs and metrics.
 * **Graceful Network Failover:** If the central API becomes unreachable, the agent catches connection errors, gracefully backs off, and retries every 5 seconds instead of crashing.
+* **Token Authentication:** Secure header validation (`X-API-Token: deloitte_secure_token_2026`) prevents malicious nodes on the local network from poisoning telemetry database tables.
 
 ---
 
@@ -73,8 +75,9 @@ pip install -r requirements.txt
 ### 2. Start the Central Pipeline Server
 Launch the FastAPI uvicorn daemon:
 ```bash
-python3 -m uvicorn app:app --host 127.0.0.1 --port 8000
+python3 -m uvicorn app:app --host 0.0.0.0 --port 8000
 ```
+*(Setting `--host 0.0.0.0` allows the server to accept connections from other computers on the same local network).*
 
 ### 3. Launch the Telemetry Agent
 In a separate terminal window, start the system metrics harvester:
@@ -82,9 +85,19 @@ In a separate terminal window, start the system metrics harvester:
 python3 agent.py
 ```
 
-### 4. Open the Operations Console
-Open your web browser and navigate to:
-```text
-http://127.0.0.1:8000
+### 4. Deploying Remote Agents on Other Machines
+To monitor actual remote servers or separate laptops on your network:
+1. Copy `agent.py` to the target machine and install requirements (`pip install psutil requests`).
+2. Update the config variables in `agent.py` on the target machine:
+   ```python
+   COLLECTOR_URL = "http://<YOUR_MAC_IP_ADDRESS>:8000"
+   SERVER_ID = "srv-windows-rohith" # Unique name
+   ```
+3. Run the script on the target machine: `python agent.py`
+4. The dashboard will automatically detect the new agent and add a static metrics card for it alphabetically!
+
+### 5. Launching via Docker & PostgreSQL
+To run the production-grade setup with isolated containers:
+```bash
+docker-compose up --build
 ```
-*(To test real-time alerts, trigger a CPU load spike on your machine by opening heavy applications, or click the **Inject Server Spike** button on the UI panel).*
