@@ -13,6 +13,10 @@ SERVER_ID = f"host-{socket.gethostname()}"
 PROVIDER = "Azure"
 LOG_FILE = "app.log"
 
+# Security Configuration
+API_TOKEN = os.environ.get("MONITORING_API_TOKEN", "deloitte_secure_token_2026")
+HEADERS = {"X-API-Token": API_TOKEN}
+
 LOG_TEMPLATES = [
     ("INFO", "Telemetry collector agent heartbeat successfully transmitted."),
     ("INFO", "Established telemetry tunnel connection state."),
@@ -68,7 +72,7 @@ def tail_log_file():
                         "server_id": SERVER_ID,
                         "status_code": 200 if level == "INFO" else 500
                     }
-                    requests.post(f"{COLLECTOR_URL}/api/agent/logs", json=log_payload)
+                    requests.post(f"{COLLECTOR_URL}/api/agent/logs", json=log_payload, headers=HEADERS)
             except Exception as e:
                 # Fallback: post raw line
                 try:
@@ -79,7 +83,7 @@ def tail_log_file():
                         "message": f"[RAW HARVESTER] {line.strip()}",
                         "server_id": SERVER_ID,
                         "status_code": 200
-                    })
+                    }, headers=HEADERS)
                 except Exception as ex:
                     pass
 
@@ -104,7 +108,7 @@ def collect_telemetry():
                 "throughput_kbps": random.uniform(250.0, 800.0)
             }
             
-            requests.post(f"{COLLECTOR_URL}/api/agent/telemetry", json=telemetry_data)
+            requests.post(f"{COLLECTOR_URL}/api/agent/telemetry", json=telemetry_data, headers=HEADERS)
             
             # Auto-alert logging if resource spikes
             if cpu > 50.0:

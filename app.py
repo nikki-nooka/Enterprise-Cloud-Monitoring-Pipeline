@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Query, BackgroundTasks
+from fastapi import FastAPI, Query, BackgroundTasks, Header, HTTPException
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
@@ -102,10 +102,20 @@ def send_slack_notification(message: str):
         except Exception as e:
             print(f"Error sending Slack alert: {e}")
 
+# Secure Ingestion Configuration
+API_TOKEN = os.environ.get("MONITORING_API_TOKEN", "deloitte_secure_token_2026")
+
 # Ingestion Endpoints for real Agents
 
 @app.post("/api/agent/telemetry")
-def ingest_telemetry(data: AgentTelemetry, background_tasks: BackgroundTasks):
+def ingest_telemetry(
+    data: AgentTelemetry, 
+    background_tasks: BackgroundTasks,
+    x_api_token: str = Header(None, alias="X-API-Token")
+):
+    if x_api_token != API_TOKEN:
+        raise HTTPException(status_code=401, detail="Unauthorized client agent.")
+        
     timestamp = datetime.utcnow().isoformat()
     
     with engine.begin() as conn:
@@ -122,7 +132,13 @@ def ingest_telemetry(data: AgentTelemetry, background_tasks: BackgroundTasks):
     return {"status": "success"}
 
 @app.post("/api/agent/logs")
-def ingest_logs(data: AgentLog):
+def ingest_logs(
+    data: AgentLog,
+    x_api_token: str = Header(None, alias="X-API-Token")
+):
+    if x_api_token != API_TOKEN:
+        raise HTTPException(status_code=401, detail="Unauthorized client agent.")
+        
     timestamp = datetime.utcnow().isoformat()
     
     with engine.begin() as conn:
