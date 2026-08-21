@@ -18,12 +18,12 @@ A high-performance, real-time log aggregation and telemetry pipeline designed to
 
 ```mermaid
 graph TD
-    subgraph Data Sources (Agents)
+    subgraph "Data Sources (Agents)"
         A1[agent.py - Real Host Agent] -->|POST JSON| B(Ingestion API)
         A2[pipeline_simulator.py - Cloud Pool] -->|SQLite Transact| C[(Data Store: SQLite)]
     end
 
-    subgraph Central Processing Server (app.py)
+    subgraph "Central Processing Server (app.py)"
         B -->|Async Workers| D{Alert Rule Engine}
         D -->|Spike Detected| E[Slack Webhook Service]
         B -->|Write Metrics| C
