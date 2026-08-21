@@ -15,32 +15,63 @@ A high-performance, real-time log aggregation and telemetry pipeline designed to
 
 ---
 
-## 🛠️ Architecture & Tech Stack
+## 🛠️ Architecture & Telemetry Data Flow
 
 ```mermaid
-graph TD
-    subgraph "Data Sources (Agents)"
-        A1[agent.py - Real Host Agent] -->|POST with X-API-Token Header| B(Ingestion API)
-        A2[pipeline_simulator.py - Cloud Pool] -->|SQLAlchemy Transact| C[(Data Store: Relational DB)]
+flowchart TD
+    subgraph "Client Infrastructure (Agent)"
+        OS[Host OS Kernel] -->|psutil telemetry| AG[agent.py Daemon]
+        LOGS[(app.log file)] -->|tail harvester thread| AG
     end
 
-    subgraph "Central Processing Server (app.py)"
-        B -->|Async Workers| D{Alert Rule Engine}
-        D -->|Spike Detected| E[Slack Webhook Service]
-        B -->|Write Metrics| C
+    subgraph "FastAPI Central Pipeline Server (app.py)"
+        AG -->|HTTP POST with X-API-Token Header| SEC{Header Auth Validator}
+        SEC -->|401 Unauthorized| REJ[Reject Payload]
+        SEC -->|200 OK / Authorized| BG[Ingestion Engine]
+        
+        BG -->|Async Queue Write| DB[(SQLAlchemy DB Engine: SQLite/Postgres)]
+        BG -->|Alert Rules Check| AL{Threshold Engine}
+        AL -->|CPU > 50% / RAM > 85%| SL[Slack Webhook Notification]
     end
 
-    subgraph "Monitoring Control Room"
-        C -->|Poll Updates| F[Glassmorphic Web UI]
-        F -->|Filter Queries| G[Mini-Splunk Engine]
+    subgraph "TOC Dashboard Control Console (UI)"
+        DB -->|HTTP GET Polling 1s| UI[HTML5/CSS Glassmorphic Dashboard]
+        UI -->|Dynamic Datasets| CRT[Chart.js Real-time Trend Graphs]
+        UI -->|Index Queries| SPL[Mini-Splunk Log Console]
     end
 ```
 
-### Technical Stack Details
+---
+
+## 🛠️ Tech Stack & Dependencies
+
 * **Language:** Python 3.9+ (utilizing `asyncio` for concurrency, `psutil` for hardware diagnostics, and `sqlalchemy` for database portability).
 * **Server Framework:** **FastAPI** & **Uvicorn** (asynchronous ASGI server).
 * **Frontend:** Vanilla HTML5, CSS3 (Glassmorphism design tokens), JavaScript (ES6 Fetch APIs), and **Chart.js** for animated metrics tracking.
-* **Database:** SQLite (local development) / PostgreSQL (production-grade linked via SQLAlchemy engines).
+* **Database:** SQLite (local development) / PostgreSQL (production-ready linked via SQLAlchemy engines).
+
+---
+
+## 📝 What We Did (Implementation Milestones)
+
+Here is a detailed list of all the technical updates we implemented to transition this project from a mock loop to a production-grade system:
+
+1. **Lightweight Agent (`agent.py`) Implementation:**
+   * Wrote multi-threaded Python daemon to monitor host CPU, RAM, and Disk space.
+   * Built a file tail harvester using OS file pointer seek offsets to watch `app.log` and stream log events on-the-fly.
+2. **Database Portability Engine:**
+   * Migrated raw SQL queries to **SQLAlchemy** inside `app.py` and `pipeline_simulator.py`.
+   * Swapped SQLite for containerized **PostgreSQL** support via `DATABASE_URL` environment variables.
+3. **Advanced Frontend Data Visualizations:**
+   * Loaded **Chart.js** via CDN and created dynamic scrolling charts showing real-time CPU trend lines for all active servers.
+   * Integrated unified index tooltips so that hovering over the line graph shows tooltips containing metrics for all servers simultaneously.
+4. **Header Token Authentication:**
+   * Enforced `X-API-Token: deloitte_secure_token_2026` verification on `/api/agent/telemetry` and `/api/agent/logs` ingestion endpoints.
+   * Tested and validated that unauthorized posts without headers are blocked with a `401 Unauthorized` response.
+5. **稳定的 Layout Alignment:**
+   * Added `ORDER BY server_id ASC` constraints to database query inputs and alphabetical key sorting inside `app.js` to prevent server metric cards from jumping around on the UI during updates.
+6. **Docker Containers Orchestration:**
+   * Written `Dockerfile` and `docker-compose.yml` to package the app and database services into isolated virtual networks.
 
 ---
 
@@ -52,15 +83,6 @@ In an enterprise environment, 100GB+ of daily log data equates to handling rough
 2. **Horizontal Compute Scaling:** The central processor runs inside Docker containers orchestrated by **Kubernetes (AKS/GKE)**. Pods automatically scale out horizontally based on queue latency or thread count.
 3. **Massive Parallel Writes:** SQLite is swapped with **Apache Kafka Connect** which streams processed records in batches into partitioned column-oriented storage like **GCP BigQuery** or **Azure Synapse Analytics**.
 4. **Local Disk Buffering:** In case of connection failure, the agent write-caches log payloads to local server disk buffers and flushes them in batches once connection is re-established.
-
----
-
-## 🛠️ Edge Case Protections & Fault Tolerance
-
-* **Alert De-duplication:** The pipeline enforces state-tracking in the database. When a threshold (like CPU) is breached, it checks if an active alert is already open. This prevents "alert fatigue" by ensuring operators aren't flooded with multiple duplicate notifications for a single continuous issue.
-* **Database Compaction (Anti-bloat):** To prevent disk exhaustion during high-frequency ingestion, the pipeline executes a garbage-collection task every second, keeping only the most recent logs and metrics.
-* **Graceful Network Failover:** If the central API becomes unreachable, the agent catches connection errors, gracefully backs off, and retries every 5 seconds instead of crashing.
-* **Token Authentication:** Secure header validation (`X-API-Token: deloitte_secure_token_2026`) prevents malicious nodes on the local network from poisoning telemetry database tables.
 
 ---
 
